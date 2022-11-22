@@ -1,8 +1,10 @@
-import './App.scss';
+import SimpleScreen from "./components/SimpleScreen/SimpleScreen";
 
 function App() {
   return (
-    <div> TEST </div>
+    <div>
+      <SimpleScreen />
+    </div>
   );
 }
 
