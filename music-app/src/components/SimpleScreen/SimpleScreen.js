@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   getOembed,
+  getRecommendations,
   getSimple,
 } from "../../services/APIs/MusicAppAPI/MusicAppAPI.js";
 import PropTypes from "prop-types";
-import { getRandomNumberMinMax } from "../../utils/Utils.js";
 
 const Container = styled.div``;
 
@@ -34,18 +34,26 @@ const SimpleScreen = ({ token }) => {
   }, [token, allContent, fetchSuccess]);
 
   // Set/udpate the specific playlist info
-  const setContent = async () => {
-    const playlistInfo = allContent[getRandomNumberMinMax(0, 49)];
-    const oembed = await getOembed(playlistInfo.src);
+  const setContent = async (mood) => {
+    const recs = await getRecommendations(token, mood);
+    const oembed = await getOembed(
+      recs.data.tracks[0].album.external_urls.spotify
+    );
     setCurrentPlaylistHTML(oembed.html);
   };
+
+  const moods = ["happy", "sad", "angry", "in-love"];
 
   return (
     <Container>
       <h1>Simple Screen</h1>
-      <h2 id="update-btn" onClick={() => setContent()}>
-        Pull random playlist
-      </h2>
+      <div>
+        {moods.map((mood) => (
+          <h2 key={mood} id="update-btn" onClick={() => setContent(mood)}>
+            {mood}
+          </h2>
+        ))}
+      </div>
       {currentPlaylistHTML && (
         <div
           className="Container"
