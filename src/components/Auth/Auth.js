@@ -12,8 +12,7 @@ const getAuthorizationCode = async (id) => {
     client_id: id,
     response_type: "code",
     redirect_uri: "http://localhost:3000",
-    state: getRandomNumberLength(),
-    // scope: [],
+    state: getRandomNumberLength(), // TODO: add state check
   };
   Object.keys(params).forEach((param) => {
     baseURL.searchParams.append(param, params[param]);
