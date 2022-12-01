@@ -1,10 +1,15 @@
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { useEffect } from "react";
-import {
-  getClientCredentials,
-  getToken,
-} from "../../services/APIs/AuthAPI/AuthAPI";
-import { getRandomNumberLength } from "../../utils/Utils";
+import { getClientCredentials, getToken } from "../services/APIs/AuthAPI";
+import { getRandomNumberLength } from "../utils/Utils";
+
+const AuthContainer = styled.div`
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const getAuthorizationCode = async (id) => {
   const baseURL = new URL("https://accounts.spotify.com/authorize");
@@ -45,7 +50,11 @@ const Auth = ({ setAuthData, authData }) => {
       console.error("failed");
     }
   };
-  return <div onClick={() => handleLogin()}>Login</div>;
+  return (
+    <AuthContainer onClick={() => handleLogin()}>
+      <h1>connect to Spotify</h1>
+    </AuthContainer>
+  );
 };
 
 Auth.defaultProps = {
