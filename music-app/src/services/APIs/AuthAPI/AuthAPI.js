@@ -1,6 +1,6 @@
 import { getJSON } from "../../APIHelpers";
 
-const URI = "http://127.0.0.1:8000";
+const URI = "http://127.0.0.1:8000/auth";
 
 export const getClientCredentials = async () => {
   const response = await getJSON(`${URI}/credentials`);

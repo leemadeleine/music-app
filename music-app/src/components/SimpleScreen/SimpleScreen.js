@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getSimple } from "../../services/APIs/MusicAppAPI/MusicAppAPI.js";
+import {
+  getOembed,
+  getSimple,
+} from "../../services/APIs/MusicAppAPI/MusicAppAPI.js";
 import PropTypes from "prop-types";
 import { getRandomNumberMinMax } from "../../utils/Utils.js";
 
@@ -9,13 +12,12 @@ const Container = styled.div``;
 const SimpleScreen = ({ token }) => {
   const [hasError, setHasError] = useState(false);
   const [allContent, setAllContent] = useState(null);
-  const [currentContent, setCurrentContent] = useState(null);
+  const [currentPlaylistHTML, setCurrentPlaylistHTML] = useState(null);
   const [fetchSuccess, setFetchSuccess] = useState(false);
-  const [fetchStarted, setFetchStarted] = useState(false);
 
   useEffect(() => {
     // Fetch all playlist info once
-    if (token && !fetchStarted && !fetchSuccess) {
+    if (token && !fetchSuccess) {
       const fetchData = async () => {
         const response = await getSimple(token);
         const data = response.data;
@@ -23,20 +25,19 @@ const SimpleScreen = ({ token }) => {
         setFetchSuccess(true);
       };
       try {
-        setFetchStarted(true);
         fetchData();
       } catch {
         setHasError(true);
         setFetchSuccess(false);
-        setFetchStarted(false);
       }
     }
-  }, [token, allContent, fetchStarted, fetchSuccess]);
+  }, [token, allContent, fetchSuccess]);
 
   // Set/udpate the specific playlist info
-  const setContent = () => {
-    const obj = allContent[getRandomNumberMinMax(0, 49)];
-    setCurrentContent(obj.data);
+  const setContent = async () => {
+    const playlistInfo = allContent[getRandomNumberMinMax(0, 49)];
+    const oembed = await getOembed(playlistInfo.src);
+    setCurrentPlaylistHTML(oembed.html);
   };
 
   return (
@@ -45,7 +46,12 @@ const SimpleScreen = ({ token }) => {
       <h2 id="update-btn" onClick={() => setContent()}>
         Pull random playlist
       </h2>
-      {currentContent && <div>{currentContent}</div>}
+      {currentPlaylistHTML && (
+        <div
+          className="Container"
+          dangerouslySetInnerHTML={{ __html: currentPlaylistHTML }}
+        ></div>
+      )}
       {hasError && <div>Error</div>}
     </Container>
   );
