@@ -1,4 +1,4 @@
-# music-app
+# mood (music app)
 
 <img width="1416" alt="image" src="https://user-images.githubusercontent.com/15672173/205189587-0d8f6627-338a-44be-9672-585c8545071e.png">
 
