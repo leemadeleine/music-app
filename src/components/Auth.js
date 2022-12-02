@@ -11,6 +11,10 @@ const AuthContainer = styled.div`
   justify-content: center;
 `;
 
+const StyledH1 = styled.h1`
+  cursor: pointer;
+`;
+
 const getAuthorizationCode = async (id) => {
   const baseURL = new URL("https://accounts.spotify.com/authorize");
   const params = {
@@ -52,7 +56,7 @@ const Auth = ({ setAuthData, authData }) => {
   };
   return (
     <AuthContainer onClick={() => handleLogin()}>
-      <h1>connect to Spotify</h1>
+      <StyledH1>connect to Spotify</StyledH1>
     </AuthContainer>
   );
 };

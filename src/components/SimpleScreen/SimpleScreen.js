@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { getRecommendations } from "../../services/APIs/MusicAppAPI.js";
 import PropTypes from "prop-types";
 import { moods } from "./moodConfig.js";
+import shuffleIcon from "./assets/shuffle.png";
 
 const SimpleScreenContainer = styled.div`
   max-width: 600px;
@@ -10,14 +11,46 @@ const SimpleScreenContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  margin-top: 0;
+  margin: 0;
   font-size: 72px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 64px;
+`;
+
+const MoodOption = styled.div`
+  cursor: pointer;
+`;
+
+const StyledH2 = styled.h2`
+  margin-bottom: 8px;
+`;
+
+const ShuffleIcon = styled.img`
+  width: 24px;
+  filter: invert(1);
+`;
+
+const Placeholder = styled.div`
+  font-style: italic;
+  margin-top: 110px;
+
+  animation: bounce 3s infinite;
+
+  @keyframes bounce {
+    0% {
+      margin-top: 110px;
+    }
+    50% {
+      margin-top: 100px;
+    }
+    100% {
+      margin-top: 110px;
+    }
+  }
 `;
 
 const SimpleScreen = ({ token }) => {
@@ -42,19 +75,21 @@ const SimpleScreen = ({ token }) => {
         {Object.keys(moods).map((key) => {
           const mood = moods[key];
           return (
-            <h2
-              key={mood.tag}
-              id="update-btn"
-              onClick={() => setContent(mood.tag)}
-            >
-              {mood.label}
-            </h2>
+            <MoodOption onClick={() => setContent(mood.tag)}>
+              <StyledH2 key={mood.tag} id="update-btn">
+                {mood.label}
+              </StyledH2>
+              <ShuffleIcon src={shuffleIcon} />
+            </MoodOption>
           );
         })}
       </ButtonContainer>
-      {currentInfo && (
+      {currentInfo ? (
         <iframe
-          style={{ border: "none", "border-radius": "12px", background: "lightgray" }}
+          style={{
+            border: "none",
+            "border-radius": "12px",
+          }}
           title={currentInfo.title}
           width="100%"
           height="300"
@@ -63,6 +98,10 @@ const SimpleScreen = ({ token }) => {
           loading="lazy"
           src={`${currentInfo.src}?utm_source=oembed`}
         ></iframe>
+      ) : (
+        <Placeholder>
+          Pick a mood, shuffle as many times as you'd like
+        </Placeholder>
       )}
     </SimpleScreenContainer>
   );
