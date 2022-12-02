@@ -1,5 +1,7 @@
 # mood (music app)
 
+An app that makes it easy to find music based on your mood. Using the Spotify APIs.
+
 <img width="1416" alt="image" src="https://user-images.githubusercontent.com/15672173/205189587-0d8f6627-338a-44be-9672-585c8545071e.png">
 
 ## Running the app
